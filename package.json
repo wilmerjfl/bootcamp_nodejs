@@ -1,0 +1,27 @@
+{
+  "name": "bootcamp_nodejs",
+  "version": "1.0.0",
+  "description": "Project to learn node js",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "NODE_ENV=production node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilmerjfl/bootcamp_nodejs.git"
+  },
+  "author": "Wilmer Fajardo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wilmerjfl/bootcamp_nodejs/issues"
+  },
+  "homepage": "https://github.com/wilmerjfl/bootcamp_nodejs#readme"
+}
