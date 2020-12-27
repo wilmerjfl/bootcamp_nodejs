@@ -34,17 +34,13 @@ exports.createBootcamp = (req, res, next) => {
 // @desc      Get one bootcamp
 //@route      GET /api/v1/bootcamp/:id
 //@access     Private
-exports.getBootcamp = async (req, res, next) => {
-  try{
-    const bootcamp = await Bootcamp.findById(req.params.id)
-
-    res.status(200).json({
-      success: true,
-      data: bootcamp
-    })
-  } catch(err) {
-    next(err)
-  }
+exports.getBootcamp = (req, res, next) => {
+  Bootcamp.findById(req.params.id)
+  .then((response) => res.status(200).json({
+    success: true,
+    data: response
+  }))
+  .catch((e) => next(e))
 }
 
 // @desc      Update a bootcamp
