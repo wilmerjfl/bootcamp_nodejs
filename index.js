@@ -33,7 +33,7 @@ app.use(errorHandler)
 
 //Dev Logger Middleware
 if(process.env.NODE_ENV === 'development'){
-  app.use(morgan(':method :url code :status - :response-time ms'))
+  app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
 }
 
 app.listen(

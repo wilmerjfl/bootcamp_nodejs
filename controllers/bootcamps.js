@@ -1,5 +1,5 @@
 const Bootcamp = require('../models/Bootcamp')
-
+const ErrorResponse = require('../utils/errorResponse')
 // @desc      Get all bootcamps
 //@route      GET /api/v1/bootcamps
 //@access     Public
@@ -40,7 +40,7 @@ exports.getBootcamp = (req, res, next) => {
     success: true,
     data: response
   }))
-  .catch((e) => next(e))
+  .catch((e) => next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)))
 }
 
 // @desc      Update a bootcamp
