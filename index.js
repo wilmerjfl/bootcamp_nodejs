@@ -22,6 +22,12 @@ connectDB()
 //Running App
 const app = express()
 
+//Dev Logger Middleware
+if(process.env.NODE_ENV === 'development'){
+  app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
+}
+
+
 //Body Parser
 app.use(express.json())
 
@@ -30,11 +36,6 @@ app.use('/api/v1/bootcamps', bootcamps)
 
 //Use Middlewares
 app.use(errorHandler)
-
-//Dev Logger Middleware
-if(process.env.NODE_ENV === 'development'){
-  app.use(morgan(':method :url :status :response-time ms - :res[content-length]'))
-}
 
 app.listen(
   PORT,
