@@ -6,10 +6,57 @@ const geocoder = require('../utils/geocoder')
 // @route      GET /api/v1/bootcamps
 // @access     Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  const bootcamps = await Bootcamp.find()
+
+  const removeFields = ['select', 'sort', 'page', 'limit']
+  let reqQuery = { ...req.query }
+  removeFields.forEach(param => delete reqQuery[param])
+  // Fix query to mongodb
+  let query = JSON.stringify(reqQuery)
+  reqQuery = JSON.parse(query.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`))
+  query = Bootcamp.find(reqQuery).populate('courses')
+
+  if(req.query.select){
+    const fields = req.query.select.split(',').join(' ')
+    query = query.select(fields)
+  }
+
+  if(req.query.sort){
+    const sortBy = req.query.sort.split(',').join(' ')
+    query = query.sort(sortBy)
+  } else {
+    query = query.sort('-createdAt')
+  }
+  const page = parseInt(req.query.page, 10) || 1
+  const limit = parseInt(req.query.limit, 10) || 25
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
+  const total = await Bootcamp.countDocuments()
+
+  query = query.skip(startIndex).limit(limit)
+
+  //console.log(query)
+  const bootcamps = await query
+
+  const pagination = {}
+
+  if(endIndex < total){
+    pagination.next = {
+      page: page + 1,
+      limit
+    }
+  }
+
+  if (startIndex > 0){
+    pagination.prev = {
+      page: page - 1,
+      limit
+    }
+  }
+
   res.status(200).json({
     success: true,
     count: bootcamps.length,
+    pagination,
     data: bootcamps
   })
 })
@@ -84,10 +131,13 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @route      DELETE /api/v1/bootcamp/:id
 // @access     Private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-  const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id)
+  const bootcamp = await Bootcamp.findById(req.params.id)
   if (!bootcamp){
     return next(new ErrorResponse(`Bootcamp with id ${req.params.id} don't exits`, 404))
   }
+
+  bootcamp.remove()
+  
   res.status(200).json({
     success: true,
     data: bootcamp

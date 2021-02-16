@@ -15,7 +15,7 @@ const errorHandler = require('./middleware/error')
 
 //Import Routes
 const bootcamps = require('./routes/bootcamps')
-
+const courses = require('./routes/courses')
 //Connect to database
 connectDB()
 
@@ -33,6 +33,7 @@ app.use(express.json())
 
 //Use Routes
 app.use('/api/v1/bootcamps', bootcamps)
+app.use('/api/v1/courses', courses)
 
 //Use Middlewares
 app.use(errorHandler)
