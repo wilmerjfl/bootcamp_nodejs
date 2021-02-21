@@ -9,23 +9,17 @@ const asyncHandler = require('../middleware/async')
 // @access     Public
 exports.getAllCourses = asyncHandler(async (req, res, next) => {
   let query
-  console.log(req.params)
   if(req.params.bootcampId){
-    query = Course.find({ bootcamp: req.params.bootcampId })
-  } else {
-    query = Course.find().populate({
-      path: 'bootcamp',
-      select: 'name description'
+    query = await  Course.find({ bootcamp: req.params.bootcampId })
+
+    return res.status(200).json({
+      success: true,
+      count: query.length,
+      data: query
     })
+  } else {
+    res.status(200).json(res.advancedResults)
   }
-
-  const courses = await query
-
-  res.status(200).json({
-    success: true,
-    count: courses.length,
-    data:courses
-  })
 })
 
 // @desc       Get single courses
