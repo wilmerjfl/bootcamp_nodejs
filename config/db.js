@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 exports.connectDB = () => {
   mongoose.connect(process.env.MONGO_URI, {
@@ -7,6 +7,8 @@ exports.connectDB = () => {
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then((res) => console.log(`MongoDB Connect: ${res.connection.host}`.cyan.underline.bold))
-  .catch((e) => console.log(e.message))  
-}
+      .then((res) =>
+        console.log(
+            `MongoDB Connect: ${res.connection.host}`.cyan.underline.bold))
+      .catch((e) => console.log(e.message));
+};
