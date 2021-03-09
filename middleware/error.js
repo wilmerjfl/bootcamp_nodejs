@@ -9,7 +9,7 @@ module.exports = errorHandler = (err, req, res, next) => {
   }
   console.log(err);
   if (err.name === 'CastError') {
-    const message = `Bootcamp not found with id ${error.value}`;
+    const message = `Resource not found with id ${error.value}`;
     error = new ErrorResponse(message, 404);
   }
   res.status(error.statusCode || 500).json({

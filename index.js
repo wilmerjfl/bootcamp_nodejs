@@ -20,6 +20,7 @@ const errorHandler = require('./middleware/error');
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
 const users = require('./routes/users');
+const reviews = require('./routes/reviews');
 const fileUpload = require('express-fileupload');
 const authentication = require('./routes/auth');
 // Connect to database
@@ -49,6 +50,8 @@ app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
 app.use('/api/v1/auth', authentication);
 app.use('/api/v1/users', users);
+app.use('/api/v1/reviews', reviews);
+
 // Use Middlewares
 app.use(errorHandler);
 
