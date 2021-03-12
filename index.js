@@ -5,10 +5,8 @@ const morgan = require('morgan');
 const colors = require('colors');
 const helmet = require('helmet');
 const xssClean = require('xss-clean');
-const expressRateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
-const uploadfiles = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 // Load enviroment variables
